@@ -353,8 +353,11 @@ def upgraded(name,
 
     # Package installed
     else:
-        version_info = __salt__['chocolatey.version'](name, check_remote=True)
-
+        if source is None:
+            version_info = __salt__['chocolatey.version'](name)
+        else:
+            version_info = __salt__['chocolatey.version'](name, check_remote=True, source=source)
+            
         # Get the actual full name out of version_info
         full_name = name
         for pkg in version_info:
